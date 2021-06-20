@@ -1,0 +1,150 @@
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: 'Arial', sans-serif;
+}
+
+.error {
+  color: rgb(255, 98, 98);
+  padding-top: 35px;
+  font-style: italic;
+  text-align: center;
+}
+
+.info {
+  color: rgb(0, 0, 0);
+  padding-top: 35px;
+  font-style: italic;
+  text-align: center;
+}
+
+.main {
+  border: none;
+  padding: 14px 16px;
+  width: "100%";
+  margin: 20px;
+}
+
+.main button {
+  cursor: pointer;
+  border-radius: 5em;
+  color: #fff;
+  background: linear-gradient(to right, rgb(0, 0, 255), rgb(255, 0, 0));
+  border: 0;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+  font-size: 16px;
+  padding: 14px 16px;
+  margin: 20px 14px;
+  width: 200px;
+  max-height: 60px;
+  float: right;
+}
+
+.main button:disabled {
+  cursor: not-allowed;
+  border-radius: 5em;
+  color: #fff;
+  background: lightgray;
+  border: 0;
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.04);
+  font-size: 16px;
+  padding: 14px 16px;
+  margin: 20px 14px;
+  width: 200px;
+  max-height: 60px;
+  float: right;
+}
+
+.properties {
+  flex: 100%;
+}
+
+.property {
+  display: flex;
+  flex-direction: row;
+  font-size: 14px;
+  padding: 5px 6px;
+}
+
+.propertyLabel {
+  margin: 0px 10px;
+  text-align: right;
+  flex: 70%;
+  letter-spacing: 2px;
+}
+
+.property label {
+  margin: 0px 10px;
+  text-align: right;
+  flex: 70%;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.propertyInput {
+  text-align: left;
+  flex: 100%;
+}
+
+.property input {
+  text-align: left;
+  flex: 100%;
+}
+
+.numericInput{
+  width: 60px;
+  text-align: center;
+  display:inline-block; 
+  vertical-align:middle
+}
+
+.mandatoryField {
+  color: red;
+  padding-left: 3px;
+}
+
+#batchSelect {
+  width: 50px;
+  text-align: center;
+}
+
+@media screen and (max-width: 600px) {
+  .properties {
+    width: 100%;
+  }
+}
+
+#message {
+  display:none;
+  background: #f1f1f1;
+  color: #000;
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+}
+
+#message p {
+  padding: 3px 35px;
+  font-size: 18px;
+}
+
+/* Add a green text color and a checkmark when the requirements are right */
+.valid {
+  color: green;
+}
+
+.valid:before {
+  position: relative;
+  left: -35px;
+  content: "\2713";
+}
+
+/* Add a red text color and an "x" icon when the requirements are wrong */
+.invalid {
+  color: red;
+}
+
+.invalid:before {
+  position: relative;
+  left: -35px;
+  content: "\2715";
+}
