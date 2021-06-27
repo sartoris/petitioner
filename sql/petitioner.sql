@@ -359,7 +359,7 @@ ALTER TABLE `PetitionHistory`
   ADD KEY `fk_Petition_CirculatorId` (`CirculatorID`);
 
 
---Views for reporting
+-- Views for reporting
 
 CREATE
  ALGORITHM = UNDEFINED
