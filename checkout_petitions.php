@@ -3,6 +3,8 @@
 <head>
     <?php
         include 'includes/header.php';
+        $msg = "";
+        $msgClass = "noMsg";
     ?>
     <title>Petitioner - Bulk Checkout</title>
     <script>
@@ -101,7 +103,17 @@
     <?php
         $page = 'checkoutPetition';
         include 'includes/navbar.php';
+        if(isset($_SESSION['errorMsg'])) {
+            $msg = $_SESSION['errorMsg'];
+            unset($_SESSION['errorMsg']);
+            $msgClass = "error";
+        } else if(isset($_SESSION['message'])) {
+            $msg = $_SESSION['message'];
+            unset($_SESSION['message']);
+            $msgClass = "info";
+        }
     ?>
+    <div class="<?php echo $msgClass ?>" ><?php echo $msg ?></div>
     <form action='save_petitions.php' method='post'>
         <input id="bulkList" name="bulkList" type="hidden" />
         <div class="main">
@@ -111,7 +123,7 @@
                     <div class="propertyInput">
                         <input id="petitionNumbers" name="petitionNumbers" type="text" value="" onkeypress="petitionNumbersKeyed(event)" onkeydown="petitionNumbersKeydown(event)"/>
                         <font class="mandatoryField">*</font>
-                        <label>(ex: A05004,B05100-B06125)</label><br/>
+                        <label>(ex: AA1004,AA1009-AA1025)</label><br/>
                     </div>
                     <label id="error" name="error" style="color:red"></label><br/>
                 </div>

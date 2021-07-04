@@ -9,7 +9,7 @@
     function createBatch ($batch, $startingNumber, $endingNumber) {
         global $connection;
         for ($i = $startingNumber; $i <= $endingNumber; $i++) {
-            $petitionid = $batch . sprintf("%05d", $i);
+            $petitionid = $batch . sprintf("%04d", $i);
             $stmt = $connection->prepare("insert into Petition (
                 Batch,
                 PetitionNumber,
@@ -24,8 +24,10 @@
             );
             $result = $stmt->execute();
             if ($result === FALSE) {
-                echo $stmt->error;
+                $_SESSION['errorMsg'] = $stmt->error;
                 break;
+            } else {
+                $_SESSION['message'] = "Batch generated";
             }
         }
         $stmt->close();
@@ -50,7 +52,7 @@
             $checkOutTo = $_POST["circulatorid"];
         }
         if($checkOutTo=="") {
-            echo "ERROR: No CheckOutTo is selected";
+            $_SESSION['errorMsg'] = "ERROR: No CheckOutTo is selected";
         } else {
             $stmt = $connection->prepare("update Petition set ".$checkOutToField." = ?,
             BulkCheckOutDate = CURRENT_TIMESTAMP,
@@ -59,7 +61,7 @@
             ModifiedBy = ?
             where PetitionNumber = ?");
             if ($stmt === FALSE) {
-                echo "ERROR: " . $connection->error;
+                $_SESSION['errorMsg'] = $connection->error;
             } else {
                 foreach ($bulkList as $petitionNumber) {
                     echo $petitionNumber;
@@ -71,9 +73,12 @@
                     );
                     $result = $stmt->execute();
                     if($result === FALSE) { 
-                        echo "ERROR: " . $stmt->error;
+                        $_SESSION['errorMsg'] = $stmt->error;
                         break;
                     }
+                }
+                if(!isset($_SESSION['errorMsg'])) {
+                    $_SESSION['message'] = "Petitions checked out";
                 }
             }
         }
