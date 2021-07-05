@@ -1,10 +1,11 @@
 <?php
 include 'includes/db.php';
 
-$data = "PetitionNumber,County,Depot,Coordinator,Ambassador,Circulator,SignatureCount,ValidSignatureCount,";
+$data = "PetitionName,PetitionNumber,County,Depot,Coordinator,Ambassador,Circulator,SignatureCount,ValidSignatureCount,";
 $data .= "isCheckedIn,isNotarized,isValid,Comments,CreatedBy,CreatedOn,ModifiedBy,ModifiedOn\n";
 
 $query = "SELECT ";
+$query .= "p.PetitionName, ";
 $query .= "p.PetitionNumber, ";
 $query .= "p.County, ";
 $query .= "d.name as Depot, ";
@@ -37,6 +38,7 @@ if($result === FALSE) {
 } else {
     while($row = $result->fetch_array())
     {
+        $data .= "\"".$row['PetitionName']."\",";
         $data .= "\"".$row['PetitionNumber']."\",";
         $data .= "\"".$row['County']."\",";
         $data .= "\"".$row['Depot']."\",";

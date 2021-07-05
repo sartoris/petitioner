@@ -43,6 +43,8 @@
         function resetControls() {
             document.getElementById("county").disabled = true;
             document.getElementById("county").value = "--";
+            document.getElementById("petitionName").disabled = true;
+            document.getElementById("petitionName").value = "";
             document.getElementById("circulatorID").disabled = true;
             document.getElementById("circulatorID").value = 0;
             document.getElementById("signatureCount").disabled = true;
@@ -86,6 +88,8 @@
                         document.getElementById("error").innerText = "Record not found";
                     } else {
                         document.getElementById("error").innerText = "";
+                        document.getElementById("petitionName").value = record.petitionName;
+                        document.getElementById("petitionName").disabled = false;
                         document.getElementById("county").value = !record.county ? "--" : record.county;
                         document.getElementById("county").disabled = false;
                         document.getElementById("circulatorID").value = !record.circulatorID ? 0 : record.circulatorID;
@@ -145,6 +149,12 @@
                     <div class="propertyInput">
                         <input id="petitionNumber" name="petitionNumber" style="width:8ch"  maxlength="6" />
                         <font id="error" class="error"></font>
+                    </div>
+                </div>
+                <div class="property">
+                    <label for="petitionName">Petition Name</label>
+                    <div class="propertyInput">
+                        <input id="petitionName" name="petitionName" />
                     </div>
                 </div>
                 <div class="property">

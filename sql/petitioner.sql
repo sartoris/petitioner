@@ -227,6 +227,7 @@ CREATE TABLE `PetitionHistory` (
   `ID` int(11) NOT NULL,
   `Batch` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
   `PetitionNumber` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `PetitionName` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
   `BulkCheckOutDate` date DEFAULT NULL,
   `BulkCheckOutBy` int(11) DEFAULT NULL,
   `County` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -265,6 +266,7 @@ CREATE TABLE `Petition` (
   `ID` int(11) NOT NULL,
   `Batch` varchar(2) COLLATE utf8mb4_unicode_ci NOT NULL,
   `PetitionNumber` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `PetitionName` varchar(255) COLLATE utf8mb4_unicode_ci NULL,
   `BulkCheckOutDate` date DEFAULT NULL,
   `BulkCheckOutBy` int(11) DEFAULT NULL,
   `County` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -297,10 +299,10 @@ ALTER TABLE `Petition`
 -- 1st run in mysql: set global log_bin_trust_function_creators=1;
 CREATE TRIGGER onPetitionUpdate AFTER UPDATE ON Petition
 FOR EACH ROW INSERT INTO PetitionHistory 
-(PetitionID, Batch, PetitionNumber, BulkCheckOutDate, BulkCheckOutBy, County, DepotID, CoordinatorID, AmbassadorID, CirculatorID,
+(PetitionID, Batch, PetitionNumber, PetitionName, BulkCheckOutDate, BulkCheckOutBy, County, DepotID, CoordinatorID, AmbassadorID, CirculatorID,
 SignatureCount, ValidSignatureCount, isCheckedIn, isNotarized, isValid, Comments, ModifiedBy, ModifiedOn)
 VALUES
-(NEW.ID, NEW.Batch, NEW.PetitionNumber, NEW.BulkCheckOutDate, NEW.BulkCheckOutBy, NEW.County, NEW.DepotID, NEW.CoordinatorID, NEW.AmbassadorID, NEW.CirculatorID,
+(NEW.ID, NEW.Batch, NEW.PetitionNumber, NEW.PetitionName, NEW.BulkCheckOutDate, NEW.BulkCheckOutBy, NEW.County, NEW.DepotID, NEW.CoordinatorID, NEW.AmbassadorID, NEW.CirculatorID,
 NEW.SignatureCount, NEW.ValidSignatureCount, NEW.isCheckedIn, NEW.isNotarized, NEW.isValid, NEW.Comments, NEW.ModifiedBy, NEW.ModifiedOn);
 
 -- --------------------------------------------------------
@@ -386,24 +388,25 @@ CREATE
  ALGORITHM = UNDEFINED
 VIEW CirculatorPetitionCount AS
   SELECT
-    Circulator,
-    CheckInDate,
-    count(PetitionNumber) AS PetitionCount
-  FROM PetitionCirculatorCheckIn
-  group by CheckInDate, Circulator
+    concat(c.FirstName, ' ', c.LastName) AS Circulator,
+    count(PetitionNumber) AS PetitionCount,
+    sum(SignatureCount) as SignatureCount
+  FROM Petition p
+  JOIN Person c
+    ON c.Id = p.CirculatorId
+  where p.IsCheckedIn = 1
+  group by p.CirculatorId
 
 CREATE
  ALGORITHM = UNDEFINED
 VIEW `PetitionCirculator` AS
   SELECT 
+    p.PetitionName,
     p.PetitionNumber,
     p.County AS CountySignaturesAreFor,
     pd.Name AS PetitionDepot,
     if(p.isCheckedIn = 1, 'Y', 'N') AS IsPetitionCheckedIn,
-    if(p.isNotarized = 1, 'Y', 'N') AS IsPetitionNotarized,
-    if(p.isValid = 1, 'Y', 'N') AS IsPetitionValid,
     p.SignatureCount,
-    p.ValidSignatureCount,
     p.Comments,
     concat(c.FirstName, ' ', c.LastName) AS Circulator,
     c.County AS CirculatorCounty,

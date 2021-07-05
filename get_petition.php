@@ -35,7 +35,8 @@
                 isCheckedIn,
                 isNotarized,
                 isValid,
-                Comments
+                Comments,
+                PetitionName
             FROM `Petition` 
             where PetitionNumber = '" . $petitionNumber . "'";
         $result = $connection->query($query);
@@ -58,6 +59,7 @@
                     $record->isNotarized = $row[10];
                     $record->isValid = $row[11];
                     $record->comments = $row[12];
+                    $record->petitionName = $row[13];
             }
         }
         echo json_encode($record);

@@ -52,6 +52,12 @@
                         <input id="endingNumber" name="endingNumber" type="text" inputmode="numeric" class="numericInput" value="1200"/>
                     </div>
                 </div>
+                <div class="property">
+                    <label for="petitionName">Petition Name</label>
+                    <div class="propertyInput">
+                        <input id="petitionName" name="petitionName" type="text"/>
+                    </div>
+                </div>
             </div>
             <Button>Generate Next Batch</Button>
         </div>

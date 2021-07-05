@@ -6,19 +6,21 @@
     }
     include 'includes/db.php';
 
-    function createBatch ($batch, $startingNumber, $endingNumber) {
+    function createBatch ($batch, $startingNumber, $endingNumber, $petitionName) {
         global $connection;
         for ($i = $startingNumber; $i <= $endingNumber; $i++) {
             $petitionid = $batch . sprintf("%04d", $i);
             $stmt = $connection->prepare("insert into Petition (
                 Batch,
                 PetitionNumber,
+                PetitionName,
                 CreatedBy,
                 ModifiedBy
-            ) values (?,?,?,?)");
-            $stmt->bind_param("ssii", 
+            ) values (?,?,?,?,?)");
+            $stmt->bind_param("sssii", 
                 $batch,
                 $petitionid,
+                $petitionName,
                 $_SESSION["userid"],
                 $_SESSION["userid"]
             );
@@ -189,6 +191,7 @@
         $isNotarized = isset($_POST["isNotarized"])?1:0;
         $isValid = isset($_POST["isValid"])?1:0;
         $stmt = $connection->prepare("update Petition set
+            PetitionName = ?,
             County = ?,
             CirculatorID = ?,
             SignatureCount = ?,
@@ -196,7 +199,8 @@
             Comments = ?,
             ModifiedBy = ?,
             ModifiedOn = CURRENT_TIMESTAMP where PetitionNumber = ?");
-        $stmt->bind_param("siiisis", 
+        $stmt->bind_param("ssiiisis", 
+            $_POST["petitionName"],
             $_POST["county"],
             $_POST["circulatorID"],
             $_POST["signatureCount"],
@@ -218,7 +222,7 @@
     }
 
     if (isset($_POST["batch"])) {
-        createBatch($_POST["batch"], $_POST["startingNumber"], $_POST["endingNumber"]);
+        createBatch($_POST["batch"], $_POST["startingNumber"], $_POST["endingNumber"], $_POST["petitionName"]);
     } else if (isset($_POST["bulkList"])) {
         $bulkList = explode(",",$_POST["bulkList"]);
         checkoutPetitions($bulkList);
