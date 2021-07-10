@@ -227,7 +227,7 @@
                     <label for="county">Circulator Home County</label>
                     <div class="propertyInput">
                         <select id="county" name="county">
-                            <?php echo getMandatoryCounties('');?>
+                            <?php echo getCounties('');?>
                         </select>
                         <font class="mandatoryField">*</font>
                     </div>

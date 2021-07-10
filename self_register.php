@@ -63,7 +63,7 @@
                     <label for="county">County</label>
                     <div class="propertyInput">
                         <select id="county" name="county" required>
-                            <?php echo getMandatoryCounties('');?>
+                            <?php echo getCounties('');?>
                         </select>
                         <font class="mandatoryField">*</font>
                     </div>

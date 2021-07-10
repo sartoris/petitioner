@@ -29,29 +29,6 @@ function getStates ($state) {
 function getCounties ($county) {
     global $connection;
     if($county == '')
-        $list = "<option selected>--</option>";
-    else
-        $list = "<option>--</option>";
-    $query = "SELECT * FROM `County`";
-    $result = $connection->query($query);
-    if($result === FALSE) { 
-        $list = "ERROR: " . $connection->error;
-    }
-    else {
-        while($row = mysqli_fetch_array($result))
-        {
-            if ($row[0] == $county)
-                $list = $list."<option selected>$row[0]</option>";
-            else
-                $list = $list."<option>$row[0]</option>";
-        }
-    }
-    return $list;
-}
-
-function getMandatoryCounties ($county) {
-    global $connection;
-    if($county == '')
         $list = "<option selected value=''>--</option>";
     else
         $list = "<option value=''>--</option>";
