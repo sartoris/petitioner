@@ -55,7 +55,9 @@
                 <div class="property">
                     <label for="petitionName">Petition Name</label>
                     <div class="propertyInput">
-                        <input id="petitionName" name="petitionName" type="text"/>
+                        <select id="petitionName" name="petitionName">
+                            <?php echo getPetitionNames("");?>
+                        </select> 
                     </div>
                 </div>
             </div>

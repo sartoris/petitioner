@@ -108,6 +108,21 @@ INSERT INTO `County` (`Name`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `PetitionNames`
+--
+
+CREATE TABLE `PetitionNames` (
+  `Name` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `PetitionNames` (`Name`) VALUES
+('SB1485'),
+('HB2569'),
+('SB1819');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `Organization`
 --
 

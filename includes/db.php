@@ -3,6 +3,29 @@
 require_once 'site.cfg';
 $connection = new mysqli($hostname, $username, $password, $databaseName);
 
+function getPetitionNames ($name) {
+    global $connection;
+    if($name == '')
+        $list = "<option selected value=''></option>";
+    else
+        $list = "<option value=''></option>";
+    $query = "SELECT Name FROM `PetitionNames`";
+    $result = $connection->query($query);
+    if($result === FALSE) { 
+        $list = "ERROR: " . $connection->error;
+    }
+    else {
+        while($row = mysqli_fetch_array($result))
+        {
+            if ($row[0] == $name)
+                $list = $list."<option selected>$row[0]</option>";
+            else
+                $list = $list."<option>$row[0]</option>";
+        }
+    }
+    return $list;
+}
+
 function getStates ($state) {
     global $connection;
     if($state == 'NA')
